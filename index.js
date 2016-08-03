@@ -1,3 +1,5 @@
+var fs = require('fs');
+var extend = require('extend');
 var Elixir = require('laravel-elixir');
 var config = Elixir.config;
 

@@ -20,6 +20,7 @@
     "url": "https://github.com/iWader/laravel-elixir-template/issues"
   },
   "dependencies": {
+    "extend": "^3.0.0",
     "gulp-htmlmin": "^2.0.0",
     "gulp-template": "^4.0.0"
   }
