@@ -6,7 +6,11 @@ My main usage for this is when developing VueJS apps and I just want to serve up
 
 ## Installation
 
-To install you just need to require the module
+To install you just need to require the module after installing it with NPM.
+
+```bash
+npm install laravel-elixir-template
+```
 
 ```javascript
 var elixir = require('laravel-elixir');
