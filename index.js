@@ -1,7 +1,9 @@
+var Elixir = require('laravel-elixir');
 var fs = require('fs');
 var extend = require('extend');
-var Elixir = require('laravel-elixir');
 var config = Elixir.config;
+var template = require('gulp-template');
+var htmlmin = require('gulp-htmlmin');
 
 loadConfig();
 
@@ -57,13 +59,13 @@ Elixir.extend('template', function(src, dest, variables) {
 
     watchSrc = src.concat(manifest);
 
-    new Elixir.Task('template', function() {
+    new Elixir.Task('template', function($, config) {
 
         variables = getTemplateVariables(src, variables);
 
         return gulp.src(src)
-            .pipe(Elixir.Plugins.template(variables))
-            .pipe($.if(config.template.minify, Elixir.Plugins.htmlmin(config.template.options)))
+            .pipe(template(variables))
+            .pipe($.if(config.template.minify, htmlmin(config.template.options)))
             .pipe(gulp.dest(dest))
             .pipe(new Elixir.Notification('Template compiled!'));
     })
