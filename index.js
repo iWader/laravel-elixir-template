@@ -4,6 +4,7 @@ var extend = require('extend');
 var config = Elixir.config;
 var template = require('gulp-template');
 var htmlmin = require('gulp-htmlmin');
+var path = require('path');
 
 loadConfig();
 
@@ -11,20 +12,19 @@ function prepGulpPaths(src, buildPath) {
     src = Array.isArray(src) ? src : [src];
 
     return new Elixir.GulpPaths()
-        .src(src, config.publicPath)
-        .output(buildPath || config.get('public.versioning.buildFolder'));
+        .src(src, config.assetsPath)
+        .output(buildPath || config.publicPath);
 }
 
-function getTemplateVariables(src, variables) {
+function getTemplateVariables(variables) {
     var defaults = {
-        css: 'assets/css/app.css',
-        js:  'assets/js/app.js'
+        css: 'css/app.css',
+        js:  'js/app.js'
     };
 
     variables = variables || {};
 
-    var paths = prepGulpPaths(src);
-    var manifest = paths.output.baseDir + '/rev-manifest.json';
+    var manifest = path.join(config.publicPath, config.versioning.buildFolder, '/rev-manifest.json');
 
     if (fs.statSync(manifest)) {
         manifest = JSON.parse(fs.readFileSync(manifest));
@@ -33,7 +33,7 @@ function getTemplateVariables(src, variables) {
             var val = defaults[key];
 
             if (manifest.hasOwnProperty(val)) {
-                variables[key] = config.versioning.buildFolder + '/' + manifest[val];
+                variables[key] = path.join(config.versioning.buildFolder, manifest[val]);
             }
         }
     }
@@ -55,20 +55,21 @@ Elixir.extend('template', function(src, dest, variables) {
     src = Array.isArray(src) ? src : [src];
 
     var paths = prepGulpPaths(src);
-    var manifest = paths.output.baseDir + '/rev-manifest.json';
 
-    watchSrc = src.concat(manifest);
+    var manifest = path.join(paths.output.baseDir, '/rev-manifest.json');
 
     new Elixir.Task('template', function($, config) {
 
-        variables = getTemplateVariables(src, variables);
+        variables = getTemplateVariables(variables);
 
-        return gulp.src(src)
+        console.log(paths.output);
+
+        return gulp.src(paths.src.path)
             .pipe(template(variables))
             .pipe($.if(config.template.minify, htmlmin(config.template.options)))
-            .pipe(gulp.dest(dest))
+            .pipe(gulp.dest(paths.output.path))
             .pipe(new Elixir.Notification('Template compiled!'));
     })
-    .watch(watchSrc)
-    .ignore(dest);
+        .watch(src.concat(manifest))
+        .ignore(dest);
 });
