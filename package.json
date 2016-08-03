@@ -1,0 +1,26 @@
+{
+  "name": "laravel-elixir-template",
+  "version": "1.0.0",
+  "description": "Substitute elixir versioned assets into a template",
+  "main": "index.js",
+  "keywords": [
+    "laravel",
+    "elixir",
+    "versioned",
+    "template"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iWader/laravel-elixir-template"
+  },
+  "author": "Wade Urry",
+  "license": "MIT",
+  "homepage": "https://github.com/iWader/laravel-elixir-template",
+  "bugs": {
+    "url": "https://github.com/iWader/laravel-elixir-template/issues"
+  },
+  "dependencies": {
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-template": "^4.0.0"
+  }
+}
