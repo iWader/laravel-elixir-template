@@ -56,7 +56,7 @@ Elixir.extend('template', function(src, dest, variables) {
 
     var paths = prepGulpPaths(src);
 
-    var manifest = path.join(paths.output.baseDir, '/rev-manifest.json');
+    var manifest = path.join(config.publicPath, config.versioning.buildFolder, '/rev-manifest.json');
 
     new Elixir.Task('template', function($, config) {
 
