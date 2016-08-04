@@ -68,6 +68,5 @@ Elixir.extend('template', function(src, dest, variables) {
             .pipe(gulp.dest(paths.output.path))
             .pipe(new Elixir.Notification('Template compiled!'));
     })
-        .watch(src.concat(manifest))
-        .ignore(dest);
+        .watch(paths.src.path.concat(manifest));
 });
