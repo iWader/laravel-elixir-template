@@ -62,8 +62,6 @@ Elixir.extend('template', function(src, dest, variables) {
 
         variables = getTemplateVariables(variables);
 
-        console.log(paths.output);
-
         return gulp.src(paths.src.path)
             .pipe(template(variables))
             .pipe($.if(config.template.minify, htmlmin(config.template.options)))
